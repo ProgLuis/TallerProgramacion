@@ -11,4 +11,19 @@
         <maven.compiler.target>22</maven.compiler.target>
         <exec.mainClass>utp.puestoventa.PuestoVenta</exec.mainClass>
     </properties>
+    <dependencies>
+        <!-- Dependencia para org.json -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20210307</version>
+        </dependency>
+
+        <!-- Otras dependencias que necesite tu proyecto -->
+    </dependencies>
+    
+    
+    
+    
+    
 </project>
