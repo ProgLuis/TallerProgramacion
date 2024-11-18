@@ -16,6 +16,7 @@ public class Logeo extends javax.swing.JFrame {
      */
     public Logeo() {
         initComponents();
+        this.getContentPane().setBackground(java.awt.Color.GRAY);
     }
 
     /**
@@ -39,16 +40,19 @@ public class Logeo extends javax.swing.JFrame {
         setResizable(false);
         setSize(new java.awt.Dimension(300, 200));
 
+        jLabel1.setForeground(java.awt.Color.white);
         jLabel1.setText("Usuario:");
 
         TxtUsuario.setToolTipText("");
         TxtUsuario.setName(""); // NOI18N
 
+        jLabel2.setForeground(java.awt.Color.white);
         jLabel2.setText("Contraseña");
 
         TxtPass.setToolTipText("");
 
         BtnIngresar.setText("Ingresar");
+        BtnIngresar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         BtnIngresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnIngresarActionPerformed(evt);
@@ -143,7 +147,44 @@ public class Logeo extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void comprobarLogeo() {
-          JOptionPane.showMessageDialog(null, "Este es un mensaje emergente", "Título del Mensaje", JOptionPane.INFORMATION_MESSAGE);
+        //JOptionPane.showMessageDialog(null, "Este es un mensaje emergente", "Título del Mensaje", JOptionPane.INFORMATION_MESSAGE);
+                 
+        Credencial miCredencial = new Credencial(TxtUsuario.getText(), TxtPass.getText());
+
+        try {
+            // Realiza la solicitud HTTP POST y procesa la respuesta JSON
+            ServicioLogeo Logeo = new ServicioLogeo();
+            
+            boolean autenticado = Logeo.enviarCredenciales(miCredencial);
+            
+            if (autenticado) {
+                JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso");
+                
+                
+                
+                // Creamos nueva instancia del formulario llamado: Logeo.java
+                VentanaPrincipal formularioPrincipal = new VentanaPrincipal();
+        
+                // Centrar el formulario en la pantalla
+                formularioPrincipal.setLocationRelativeTo(null);
+        
+                // Hacer visible el formulario
+                formularioPrincipal.setVisible(true);
+
+                //Oculta el formulario actual
+                setVisible(false);
+                
+            } else {
+                JOptionPane.showMessageDialog(this, "Credenciales incorrectas");
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error de conexión: " + ex.getMessage());
+        }
+        
+        
+        
     }
+
+   
 
 }
