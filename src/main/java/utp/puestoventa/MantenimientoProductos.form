@@ -60,6 +60,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Nuevo producto"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNuevoProductoActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnEditarProducto">
       <Properties>
@@ -119,7 +122,7 @@
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="120" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>

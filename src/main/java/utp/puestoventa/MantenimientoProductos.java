@@ -4,12 +4,15 @@
  */
 package utp.puestoventa;
 
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Admin
  */
 public class MantenimientoProductos extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form MantenimientoProductos
      */
@@ -35,6 +38,11 @@ public class MantenimientoProductos extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnNuevoProducto.setText("Nuevo producto");
+        btnNuevoProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoProductoActionPerformed(evt);
+            }
+        });
 
         btnEditarProducto.setText("Editar producto");
 
@@ -70,6 +78,7 @@ public class MantenimientoProductos extends javax.swing.JFrame {
         if (jTableListaProductos.getColumnModel().getColumnCount() > 0) {
             jTableListaProductos.getColumnModel().getColumn(0).setPreferredWidth(50);
             jTableListaProductos.getColumnModel().getColumn(1).setPreferredWidth(250);
+            jTableListaProductos.getColumnModel().getColumn(5).setPreferredWidth(120);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -104,6 +113,14 @@ public class MantenimientoProductos extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnNuevoProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoProductoActionPerformed
+        // TODO add your handling code here:
+        NuevoProducto formNuevoProducto = new NuevoProducto();        
+        formNuevoProducto.setLocationRelativeTo(null); // Centrar la ventana        
+        formNuevoProducto.setVisible(true); // Mostrar la ventana
+        
+    }//GEN-LAST:event_btnNuevoProductoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -130,7 +147,7 @@ public class MantenimientoProductos extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MantenimientoProductos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -146,4 +163,39 @@ public class MantenimientoProductos extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableListaProductos;
     // End of variables declaration//GEN-END:variables
+
+    public void CargarListaProductos() {
+    //De forma predeterminada, el metodo se crea de forma estatica en NetBeans, pero no es necesaria esta
+    //caracteristcica, entonces:
+    //private static void CargarListaProductos() {
+    //la dejamos como:
+    //private void CargarListaProductos() {
+        
+    // Instanciar el servicio que obtiene los datos
+    ServicioListaProductos servicio = new ServicioListaProductos();
+
+    // Obtener la lista de productos desde el servicio
+    List<Productos> productos = servicio.obtenerProductos();
+
+    // Obtener el modelo de la tabla desde el diseñador
+    DefaultTableModel modelo = (DefaultTableModel) jTableListaProductos.getModel();
+
+    // Limpiar filas existentes (si el método se llama más de una vez)
+    modelo.setRowCount(0);
+
+    // Agregar los productos como filas en la tabla
+    for (Productos producto : productos) {
+        // Cada fila contiene los datos de un producto
+        modelo.addRow(new Object[]{
+            producto.getId(),              // ID del producto
+            producto.getNombre(),          // Nombre del producto
+            producto.getCategoriaId(),     // Categoría del producto
+            producto.getUnidadMedida(),    // Unidad de medida
+            producto.getPrecioUnidad(),    // Precio por unidad
+            producto.getFechaVencimiento(),// Fecha de vencimiento
+            producto.getStock(),           // Stock disponible
+            producto.getProveedor()        // Proveedor del producto
+        });
+    }    
+    }
 }
